@@ -12,13 +12,34 @@
  * - 中文语义理解友好
  */
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
-  Bot, X, Send, Sparkles, Terminal, Settings, ChevronDown, ChevronUp,
-  Zap, Server, Database, Shield, RotateCcw, Play, Square, Copy, Check,
-  Cpu, HardDrive, Activity, Network, Layers, Key, Sliders, MessageSquare,
-  BookOpen, Command, Minimize2, Maximize2, Trash2
+  Activity,
+  BookOpen,
+  Check,
+  Command,
+  Copy,
+  Cpu,
+  Database,
+  HardDrive,
+  Key,
+  Layers,
+  Maximize2,
+  MessageSquare,
+  Minimize2,
+  Network,
+  Play,
+  RotateCcw,
+  Send,
+  Server,
+  Shield,
+  Sliders,
+  Sparkles,
+  Trash2,
+  X,
+  Zap
 } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { YYC3Logo } from "./YYC3Logo";
 
 // ============================================================
 // Types
@@ -210,7 +231,7 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
   };
 
   const copyToClipboard = (text: string, id: string) => {
-    navigator.clipboard.writeText(text).catch(() => {});
+    navigator.clipboard.writeText(text).catch(() => { });
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -255,8 +276,8 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
           right: isMobile ? 12 : 24,
         }}
       >
-        <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] flex items-center justify-center shadow-[0_0_30px_rgba(0,180,255,0.4)] hover:shadow-[0_0_40px_rgba(0,180,255,0.6)] transition-all hover:scale-105 active:scale-95">
-          <Bot className="w-7 h-7 text-white" />
+        <div className="relative w-14 h-14 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(0,180,255,0.4)] hover:shadow-[0_0_40px_rgba(0,180,255,0.6)] transition-all hover:scale-105 active:scale-95">
+          <YYC3Logo size={48} showGlow />
           {/* Pulse ring */}
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] animate-ping opacity-20" />
           {/* Badge */}
@@ -280,9 +301,7 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
         {/* ========= Header ========= */}
         <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-[rgba(0,180,255,0.12)] bg-[rgba(0,40,80,0.2)]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] flex items-center justify-center shadow-[0_0_15px_rgba(0,180,255,0.3)]">
-              <Bot className="w-5 h-5 text-white" />
-            </div>
+            <YYC3Logo size={32} showGlow />
             <div>
               <h3 className="text-[#e0f0ff]" style={{ fontSize: "0.9rem" }}>AI 智能助理</h3>
               <div className="flex items-center gap-1.5">
@@ -332,11 +351,10 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${
-                activeTab === tab.key
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${activeTab === tab.key
                   ? "bg-[rgba(0,212,255,0.12)] text-[#00d4ff] border border-[rgba(0,212,255,0.25)]"
                   : "text-[rgba(0,212,255,0.4)] hover:text-[#00d4ff] border border-transparent"
-              }`}
+                }`}
               style={{ fontSize: "0.72rem" }}
             >
               <tab.icon className="w-3.5 h-3.5" />
@@ -355,17 +373,15 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
               <div className="flex-1 overflow-auto p-3 space-y-3">
                 {messages.map(msg => (
                   <div key={msg.id} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-[85%] relative group ${
-                      msg.role === "user"
+                    <div className={`max-w-[85%] relative group ${msg.role === "user"
                         ? "bg-[rgba(0,212,255,0.12)] border border-[rgba(0,212,255,0.2)] rounded-2xl rounded-br-sm"
                         : msg.role === "system"
                           ? "bg-[rgba(255,221,0,0.08)] border border-[rgba(255,221,0,0.15)] rounded-2xl"
                           : "bg-[rgba(0,40,80,0.3)] border border-[rgba(0,180,255,0.1)] rounded-2xl rounded-bl-sm"
-                    } px-3.5 py-2.5`}>
+                      } px-3.5 py-2.5`}>
                       <div
-                        className={`whitespace-pre-wrap ${
-                          msg.role === "user" ? "text-[#e0f0ff]" : msg.role === "system" ? "text-[#ffdd00]" : "text-[#c0dcf0]"
-                        }`}
+                        className={`whitespace-pre-wrap ${msg.role === "user" ? "text-[#e0f0ff]" : msg.role === "system" ? "text-[#ffdd00]" : "text-[#c0dcf0]"
+                          }`}
                         style={{ fontSize: "0.78rem", lineHeight: "1.6" }}
                       >
                         {msg.content}
@@ -436,11 +452,10 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
                   <button
                     key={cat.key}
                     onClick={() => setCmdFilter(cat.key)}
-                    className={`px-2.5 py-1 rounded-lg transition-all ${
-                      cmdFilter === cat.key
+                    className={`px-2.5 py-1 rounded-lg transition-all ${cmdFilter === cat.key
                         ? "bg-[rgba(0,212,255,0.12)] text-[#00d4ff] border border-[rgba(0,212,255,0.25)]"
                         : "text-[rgba(0,212,255,0.4)] hover:text-[#00d4ff] border border-transparent"
-                    }`}
+                      }`}
                     style={{ fontSize: "0.68rem" }}
                   >
                     {cat.label}
@@ -486,11 +501,10 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
                 {PROMPT_PRESETS.map(preset => (
                   <div
                     key={preset.id}
-                    className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                      systemPrompt === preset.prompt
+                    className={`p-3 rounded-xl border cursor-pointer transition-all ${systemPrompt === preset.prompt
                         ? "bg-[rgba(0,212,255,0.1)] border-[rgba(0,212,255,0.3)]"
                         : "bg-[rgba(0,40,80,0.15)] border-[rgba(0,180,255,0.08)] hover:border-[rgba(0,180,255,0.2)]"
-                    }`}
+                      }`}
                     onClick={() => applyPreset(preset)}
                   >
                     <div className="flex items-center justify-between mb-1.5">
@@ -573,11 +587,10 @@ export function AIAssistant({ isMobile }: AIAssistantProps) {
                     <button
                       key={model.id}
                       onClick={() => setSelectedModel(model.id)}
-                      className={`px-3 py-2 rounded-lg text-left transition-all ${
-                        selectedModel === model.id
+                      className={`px-3 py-2 rounded-lg text-left transition-all ${selectedModel === model.id
                           ? "bg-[rgba(0,212,255,0.12)] border border-[rgba(0,212,255,0.3)] text-[#00d4ff]"
                           : "bg-[rgba(0,40,80,0.2)] border border-[rgba(0,180,255,0.08)] text-[rgba(0,212,255,0.5)] hover:border-[rgba(0,180,255,0.2)]"
-                      }`}
+                        }`}
                       style={{ fontSize: "0.72rem" }}
                     >
                       {model.id.startsWith("local-") && (

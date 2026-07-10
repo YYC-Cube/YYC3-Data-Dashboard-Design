@@ -10,9 +10,10 @@
  *   dev@yyc-matrix.local   / dev123
  */
 
+import { AlertCircle, Eye, EyeOff, Lock, Mail, Zap } from "lucide-react";
 import React, { useState } from "react";
-import { Cpu, Lock, Mail, Eye, EyeOff, AlertCircle, Zap } from "lucide-react";
 import { supabase } from "../lib/supabaseClient";
+import { YYC3Logo } from "./YYC3Logo";
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -77,9 +78,7 @@ export function Login({ onLoginSuccess }: LoginProps) {
 
           {/* Logo & Title */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#0066ff] shadow-[0_0_30px_rgba(0,180,255,0.4)] mb-4">
-              <Cpu className="w-8 h-8 text-white" />
-            </div>
+            <YYC3Logo size={64} showGlow className="mb-4" />
             <h1 className="text-[#00d4ff] tracking-[0.3em] mb-1" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.4rem" }}>
               YYC³
             </h1>

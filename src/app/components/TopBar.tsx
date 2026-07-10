@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Search, Bell, ChevronDown, Cpu, Menu, X, LogOut, User, Settings, Shield } from "lucide-react";
-import { useNavigate, useLocation } from "react-router";
-import { ConnectionStatus } from "./ConnectionStatus";
+import { Bell, ChevronDown, LogOut, Menu, Search, Settings, Shield, User, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import type { ConnectionState } from "../hooks/useWebSocketData";
+import { ConnectionStatus } from "./ConnectionStatus";
+import { YYC3Logo } from "./YYC3Logo";
 
 export const navItems = [
   { label: "数据监控", path: "/" },
@@ -85,10 +86,7 @@ export function TopBar({
 
           {/* Logo */}
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <div className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-[#00d4ff] to-[#0066ff] flex items-center justify-center shadow-[0_0_20px_rgba(0,180,255,0.4)]">
-              <Cpu className="w-5 h-5 md:w-6 md:h-6 text-white" />
-              <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#00ff88] shadow-[0_0_8px_rgba(0,255,136,0.6)] animate-pulse" />
-            </div>
+            <YYC3Logo size={isMobile ? 36 : 40} showGlow showPulse />
             <div className={isMobile ? "hidden" : "block"}>
               <span className="text-[#00d4ff] tracking-[0.2em]" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "1.1rem" }}>
                 YYC
@@ -158,9 +156,8 @@ export function TopBar({
                   { msg: "存储集群 C2 容量预警 (85%)", time: "1小时前", type: "error" },
                 ].map((n, i) => (
                   <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-[rgba(0,180,255,0.05)] cursor-pointer mb-1 transition-colors">
-                    <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
-                      n.type === "warn" ? "bg-[#ffdd00]" : n.type === "success" ? "bg-[#00ff88]" : "bg-[#ff3366]"
-                    }`} />
+                    <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${n.type === "warn" ? "bg-[#ffdd00]" : n.type === "success" ? "bg-[#00ff88]" : "bg-[#ff3366]"
+                      }`} />
                     <div>
                       <p className="text-[#c0dcf0]" style={{ fontSize: "0.8rem" }}>{n.msg}</p>
                       <p className="text-[rgba(0,212,255,0.4)]" style={{ fontSize: "0.7rem" }}>{n.time}</p>
@@ -175,11 +172,10 @@ export function TopBar({
           <div className="relative" ref={userMenuRef}>
             <button
               onClick={() => { setUserMenuOpen(!userMenuOpen); setNotifOpen(false); }}
-              className={`flex items-center gap-2 rounded-lg bg-[rgba(0,40,80,0.3)] border transition-all min-h-[44px] ${
-                userMenuOpen
+              className={`flex items-center gap-2 rounded-lg bg-[rgba(0,40,80,0.3)] border transition-all min-h-[44px] ${userMenuOpen
                   ? "border-[rgba(0,212,255,0.5)] shadow-[0_0_15px_rgba(0,180,255,0.15)]"
                   : "border-[rgba(0,180,255,0.15)] hover:border-[rgba(0,212,255,0.4)]"
-              } ${isMobile ? "p-1.5" : "p-1.5 pr-3"}`}
+                } ${isMobile ? "p-1.5" : "p-1.5 pr-3"}`}
             >
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] flex items-center justify-center">
                 <span className="text-white" style={{ fontFamily: "'Orbitron', sans-serif", fontSize: "0.7rem" }}>{initials}</span>
