@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 import { Toaster } from "sonner";
 import { TopBar } from "./TopBar";
 import { BottomNav } from "./BottomNav";
-import { AIAssistant } from "./AIAssistant";
+import { AIAssistant } from "./ai-assistant";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
 import { OfflineIndicator } from "./OfflineIndicator";
 import { useWebSocketData } from "../hooks/useWebSocketData";

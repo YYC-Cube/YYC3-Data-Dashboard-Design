@@ -1,0 +1,15 @@
+{
+  "name": "@yyc3/ai-assistant",
+  "version": "2.0.0",
+  "private": true,
+  "description": "YYC³ AI Assistant — 自包含可复用 AI 浮窗组件",
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "lucide-react": ">=0.300.0",
+    "clsx": ">=2.0.0",
+    "tailwind-merge": ">=2.0.0",
+    "@radix-ui/react-tabs": ">=1.0.0",
+    "@radix-ui/react-slider": ">=1.0.0"
+  }
+}
