@@ -35,8 +35,8 @@ export function usePushNotifications() {
 
       try {
         return new Notification(title, {
-          icon: "/icons/icon-192x192.png",
-          badge: "/icons/icon-72x72.png",
+          icon: "/yyc3-icons/pwa/icon-192x192.png",
+          badge: "/yyc3-icons/pwa/icon-72x72.png",
           tag: "yyc3-notification",
           ...options,
         });
