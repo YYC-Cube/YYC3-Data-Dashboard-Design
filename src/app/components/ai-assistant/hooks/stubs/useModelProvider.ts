@@ -7,7 +7,7 @@
  * @version v2.0.0
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export interface ModelEntry {
   id: string;
@@ -19,6 +19,13 @@ export interface ModelEntry {
 
 const STORAGE_KEY = "yyc3_ai_models";
 const OLLAMA_DEFAULT_URL = "http://localhost:11434";
+
+/** 检测是否为本地开发环境，非本地环境跳过 Ollama 扫描 */
+const isLocalhost = (): boolean => {
+  if (typeof window === "undefined") return false;
+  const { hostname } = window.location;
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname.startsWith("192.168.");
+};
 
 const DEFAULT_MODELS: ModelEntry[] = [
   { id: "qwen-72b", name: "Qwen-72B", provider: "ollama", isLocal: true, baseUrl: OLLAMA_DEFAULT_URL },
@@ -67,11 +74,18 @@ export function useModelProvider() {
     } catch { return OLLAMA_DEFAULT_URL; }
   });
 
-  // 初始化：加载已保存模型 + 扫描 Ollama
+  // 初始化：加载已保存模型 + 扫描 Ollama（仅本地环境）
   useEffect(() => {
     async function init() {
       setOllamaLoading(true);
       const saved = loadModels();
+
+      // 非本地环境跳过 Ollama 扫描，直接使用已保存模型
+      if (!isLocalhost()) {
+        setAvailableModels(saved);
+        setOllamaLoading(false);
+        return;
+      }
 
       // 扫描 Ollama 本地模型
       const ollamaModels = await scanOllamaModels(ollamaUrl);
@@ -96,8 +110,9 @@ export function useModelProvider() {
     init();
   }, [ollamaUrl]);
 
-  // 重新扫描 Ollama
+  // 重新扫描 Ollama（仅本地环境）
   const rescan = useCallback(async () => {
+    if (!isLocalhost()) return;
     setOllamaLoading(true);
     const saved = loadModels();
     const ollamaModels = await scanOllamaModels(ollamaUrl);

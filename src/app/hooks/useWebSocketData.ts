@@ -19,7 +19,7 @@
  * React Components
  */
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // ============================================================
 // 类型定义
@@ -103,7 +103,23 @@ export interface WebSocketDataState {
 // 配置常量
 // ============================================================
 
-const WS_URL = "ws://localhost:3113/ws";
+/** 检测是否为本地开发环境 */
+const isLocalhost = (): boolean => {
+  if (typeof window === "undefined") return false;
+  const { hostname } = window.location;
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname.startsWith("192.168.");
+};
+
+/** 根据环境自动选择 WebSocket 地址 */
+const getWsUrl = (): string => {
+  if (isLocalhost()) {
+    return "ws://localhost:3113/ws";
+  }
+  // 生产环境使用当前域名的 wss 协议
+  return `wss://${window.location.host}/ws`;
+};
+
+const WS_URL = getWsUrl();
 const RECONNECT_INTERVAL = 5000;       // 5 秒重连间隔
 const MAX_RECONNECT_ATTEMPTS = 10;     // 最大重连 10 次
 const HEARTBEAT_INTERVAL = 30000;      // 30 秒心跳
@@ -357,7 +373,7 @@ export function useWebSocketData(): WebSocketDataState {
   const connect = useCallback(() => {
     // 防止多次连接
     if (wsRef.current?.readyState === WebSocket.OPEN ||
-        wsRef.current?.readyState === WebSocket.CONNECTING) {
+      wsRef.current?.readyState === WebSocket.CONNECTING) {
       return;
     }
 
