@@ -1,8 +1,10 @@
-import React, { useState, useEffect, createContext, useCallback } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
-import { router } from "./routes";
+import "../styles/index.css";
 import { Login } from "./components/Login";
 import { supabase } from "./lib/supabaseClient";
+import { router } from "./routes";
 
 /** 认证上下文 - 提供登出功能和当前用户信息 */
 export const AuthContext = createContext<{
@@ -10,7 +12,7 @@ export const AuthContext = createContext<{
   userEmail: string;
   userRole: string;
 }>({
-  logout: () => {},
+  logout: () => { },
   userEmail: "",
   userRole: "",
 });
@@ -75,3 +77,9 @@ export default function App() {
     </AuthContext.Provider>
   );
 }
+
+createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

@@ -9,7 +9,17 @@ on:
 
 env:
   NODE_VERSION: "20"
-  PNPM_VERSION: "9"
+  PNPM_VERSION: "11"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build-and-test:
@@ -58,15 +68,15 @@ jobs:
           NODE_ENV: production
 
       - name: Run tests
-        run: pnpm test
+        run: pnpm test --run
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        if: success()
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: build-dist
           path: dist/
-          retention-days: 7
 
   security-scan:
     name: Security Scan
@@ -86,28 +96,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile=false
 
       - name: Run security audit
-        run: |
-          pnpm config set registry https://registry.npmjs.org
-          pnpm audit --audit-level=moderate
-          pnpm config set registry https://registry.npmmirror.com
+        run: pnpm audit --audit-level=moderate
         continue-on-error: true
 
       - name: Check for secrets
@@ -118,57 +111,16 @@ jobs:
           head: ${{ github.event.after }}
         continue-on-error: true
 
-  deploy-preview:
-    name: Deploy Preview
+  deploy-pages:
+    name: Deploy to GitHub Pages
     needs: [build-and-test, security-scan]
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-dist
-          path: dist/
-
-      - name: Deploy to preview
-        run: |
-          echo "🚀 Deploying preview build..."
-          echo "Preview URL: https://preview.yyc3-data-dashboard.design"
-
-  deploy-production:
-    name: Deploy Production
-    needs: [build-and-test, security-scan]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
-      name: production
-      url: https://yyc3-data-dashboard.design
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-dist
-          path: dist/
-
-      - name: Deploy to production
-        run: |
-          echo "🚀 Deploying production build..."
-          echo "Production URL: https://yyc3-data-dashboard.design"
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: dist/**
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

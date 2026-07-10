@@ -1,7 +1,7 @@
 import React from "react";
 
 interface GlassCardProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   glowColor?: string;
   onClick?: () => void;

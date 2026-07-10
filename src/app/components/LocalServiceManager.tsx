@@ -2,6 +2,11 @@ import { Activity, AlertTriangle, Check, Database, LogOut, Play, RefreshCw as Re
 import React, { useState } from "react";
 import { toast } from "sonner";
 
+interface LogEntry {
+  timestamp: string;
+  message: string;
+}
+
 interface ServiceConfig {
   id: string;
   name: string;
@@ -11,7 +16,7 @@ interface ServiceConfig {
   status: "stopped" | "running" | "error";
   pid?: number;
   lastCheck?: Date;
-  logs?: string[];
+  logs?: LogEntry[];
 }
 
 interface LocalServiceManagerProps {}

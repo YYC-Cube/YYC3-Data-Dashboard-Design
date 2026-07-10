@@ -30,6 +30,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { GlassCard } from "./GlassCard";
 import { NetworkConfig } from "./NetworkConfig";
+import { LocalServiceManager } from "./LocalServiceManager";
 
 // ============================================================
 // Settings sections config

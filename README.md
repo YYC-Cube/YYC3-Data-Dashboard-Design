@@ -1,11 +1,11 @@
 # YYC³ 本地多端推理矩阵数据库数据看盘
 
-![YYC³ Dashboard](/public/yyc3-article-cover-05.png)
+![YYC³ Dashboard](/public/Family-001.png)
 
-> **YanYuCloudCube**  
-> 言启象限 | 语枢未来  
-> *Words Initiate Quadrants, Language Serves as Core for the Future*  
-> 万象归元于云枢 | 深栈智启新纪元  
+> **YanYuCloudCube**
+> 言启象限 | 语枢未来
+> *Words Initiate Quadrants, Language Serves as Core for the Future*
+> 万象归元于云枢 | 深栈智启新纪元
 > *All things converge in cloud pivot; Deep stacks ignite a new era of intelligence*
 
 ---

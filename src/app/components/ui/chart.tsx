@@ -42,7 +42,7 @@ function ChartContainer({
   ...props
 }: React.ComponentProps<"div"> & {
   config: ChartConfig;
-  children: React.ComponentProps<
+  children?: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
   >["children"];
 }) {
